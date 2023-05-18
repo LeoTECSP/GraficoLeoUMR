@@ -1,0 +1,13 @@
+C:\Users\Dell\source\repos\Graf2_LeonardoLoza\bin\Debug\Graf2_LeonardoLoza.exe.config
+C:\Users\Dell\source\repos\Graf2_LeonardoLoza\bin\Debug\Graf2_LeonardoLoza.exe
+C:\Users\Dell\source\repos\Graf2_LeonardoLoza\bin\Debug\Graf2_LeonardoLoza.pdb
+C:\Users\Dell\source\repos\Graf2_LeonardoLoza\obj\Debug\Graf2_LeonardoLoza.csproj.AssemblyReference.cache
+C:\Users\Dell\source\repos\Graf2_LeonardoLoza\obj\Debug\Graf2_LeonardoLoza.Form1.resources
+C:\Users\Dell\source\repos\Graf2_LeonardoLoza\obj\Debug\Graf2_LeonardoLoza.Properties.Resources.resources
+C:\Users\Dell\source\repos\Graf2_LeonardoLoza\obj\Debug\Graf2_LeonardoLoza.csproj.GenerateResource.cache
+C:\Users\Dell\source\repos\Graf2_LeonardoLoza\obj\Debug\Graf2_LeonardoLoza.csproj.CoreCompileInputs.cache
+C:\Users\Dell\source\repos\Graf2_LeonardoLoza\obj\Debug\Graf2_LeonardoLoza.exe
+C:\Users\Dell\source\repos\Graf2_LeonardoLoza\obj\Debug\Graf2_LeonardoLoza.pdb
+C:\Users\Dell\source\repos\Graf2_LeonardoLoza\bin\Debug\UserControlAnimacion.dll
+C:\Users\Dell\source\repos\Graf2_LeonardoLoza\bin\Debug\UserControlAnimacion.pdb
+C:\Users\Dell\source\repos\Graf2_LeonardoLoza\obj\Debug\Graf2_LeonardoLoza.csproj.CopyComplete
