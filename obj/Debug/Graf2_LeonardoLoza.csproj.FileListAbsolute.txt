@@ -11,3 +11,6 @@ C:\Users\Dell\source\repos\Graf2_LeonardoLoza\obj\Debug\Graf2_LeonardoLoza.pdb
 C:\Users\Dell\source\repos\Graf2_LeonardoLoza\bin\Debug\UserControlAnimacion.dll
 C:\Users\Dell\source\repos\Graf2_LeonardoLoza\bin\Debug\UserControlAnimacion.pdb
 C:\Users\Dell\source\repos\Graf2_LeonardoLoza\obj\Debug\Graf2_LeonardoLoza.csproj.CopyComplete
+C:\Users\Dell\source\repos\Graf2_LeonardoLoza\bin\Debug\AForge.Controls.dll
+C:\Users\Dell\source\repos\Graf2_LeonardoLoza\bin\Debug\AForge.dll
+C:\Users\Dell\source\repos\Graf2_LeonardoLoza\bin\Debug\NxtNet.DesktopLib.dll

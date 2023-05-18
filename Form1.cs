@@ -8,16 +8,24 @@ using UserControlAnimacion;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
-
+using AForge.Controls;
 
 namespace Graf2_LeonardoLoza
 {
     public partial class Form1 : Form
     {
         private bool Tocado = false;
-        PictureBox colision = new PictureBox();
+        System.Windows.Forms.PictureBox colision = new System.Windows.Forms.PictureBox();
         UserControl1 cholo = new UserControl1();
         private int contador =0;
+
+
+        private int X, Y, limiteX, limiteY, XOriginal, YOriginal, mandoEstaConectado, tiempo, saltoY = 180, puntuacion = 0,dibujado; //se crean
+        Joystick controlConectado;//Variable joystick que tendrá el mando usado por el usuario
+        private string teclaAct;//Variable global que se usará para describir el estado de una tecla
+
+
+        
         public Form1()
         {
             InitializeComponent();
@@ -25,21 +33,52 @@ namespace Graf2_LeonardoLoza
             this.FormBorderStyle = FormBorderStyle.None;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Controls.Add(cholo);
-            this.DoubleBuffered = true;
+           
             cholo.Top = (180);
 
             contador = this.ClientSize.Width-80;
 
             colision.BackColor = Color.Azure;
-
+            colision.Visible = false;
             Controls.Add(colision);
+            this.DoubleBuffered = true;
 
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+          
+        
+
+        }
+
+        private void timer2_Tick_1(object sender, EventArgs e)
+        {
+            tiempo++;//Se incrementa una variable tiempo 
+            if (tiempo < 15)//Se crea una condición en caso de que la variable aún no haya llegado a 15
+            { cholo.Location = new Point(X, saltoY -= 20); }//Se desplaza 10 pixeles hacia arriba el cholo desde la posición que tenía
+            else//en caso de no cumplirse, se realiza la siguiente condición
+            {//Se abre el espacio de la condición 
+                cholo.Location = new Point(X, saltoY += 20); //Baja del salto 10 pixeles
+                if (cholo.Location.Y == 140)//Condición si se llega a bajar 120 pixeles
+                {//Se abre la condición 
+                    timer2.Enabled = false; //Se desactiva el salto cerrando con el ciclo
+                    tiempo = 0;//el tiempo se reestablece para poder usarse nuevamente
+                }//Se cierra la condición
+            }//Se cierra el espacio de la condición
+        }
+
+        private void timer3_Tick(object sender, EventArgs e)
+        {
+        
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-  
-
+            controlConectado = new Joystick(0);//Se crea el objeto mando e identifica si se encuentra en posición 0
+            //timer3.Enabled = true;//Se activa el temporizador del modo mando
+            mandoEstaConectado = 1;//Cambia la variable para indicar que si se encuentra conectado el mando
+         
         }
 
         private void Form1_Click(object sender, EventArgs e)
@@ -91,6 +130,8 @@ namespace Graf2_LeonardoLoza
         //Ya no necesito using para usar graphics usando onpaint
         protected override void OnPaint(PaintEventArgs e)
         {
+       
+         
             //pinta del tamaño de client rectangle (Client rectangle regresa el ancho y alto del rectangulo y se actualiza si cambia)
             //Si quiero que en tiempo de ejecución me regrese el ancho y alto del formulario
             //this.DoubleBuffered = true;
@@ -279,8 +320,7 @@ namespace Graf2_LeonardoLoza
             }
 
 
-            
-
+         
 
             //IMPORTAR LIBRERÍA QUE CREAMOS, COPIAR EL DIRECTORIO
             //click derecho al proyecto 
@@ -302,8 +342,19 @@ namespace Graf2_LeonardoLoza
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            contador -= 10;
-            Refresh();
+
+            label1.Text = "Puntuación: "+(puntuacion += 1).ToString();
+            Joystick.Status estadoControl = controlConectado.GetCurrentStatus();//Verifica el estado del control
+            if (estadoControl.IsButtonPressed(Joystick.Buttons.Button2))//Condición en caso de precionar O en el mando, saltar
+            {//Se abre el espacio para el código si se cumple la condición
+             
+                { timer2.Enabled = true; }//Se activa el temporizador para saltar
+            }//Se cierra el espacio para el código si se cumple la condición
+
+
+
+
+        
             if (contador == 10)
             {
                 
@@ -311,16 +362,26 @@ namespace Graf2_LeonardoLoza
                 contador = this.ClientSize.Width - 80;
             }
 
-           
-                if (cholo.Bounds.IntersectsWith(colision.Bounds) && Tocado !=true)
+
+         
+
+
+
+            if (cholo.Bounds.IntersectsWith(colision.Bounds) && Tocado !=true)
                 {
-            
-          
+             
+                timer2.Stop();
                 timer1.Stop();
                 Tocado = true;
-
+                cholo.timer1.Stop();
+               
+                MessageBox.Show("juego terminado!");
+                return;
             }
-            
+
+
+            contador -= 10;
+            Invalidate();
             //La maceta se mueve, y el cholito topa con la maceta se topa  (usando el joystick)
             //Una propiedad, si no lo acabamos por mientras que brindan
         }
@@ -341,6 +402,13 @@ namespace Graf2_LeonardoLoza
 
 
             }
+            if (e.KeyCode == Keys.Space)
+            {
+                timer2.Enabled = true;
+            }
+
+
+        
         }
     }
 }
