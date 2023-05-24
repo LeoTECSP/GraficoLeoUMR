@@ -20,7 +20,10 @@ namespace Graf2_LeonardoLoza
         private int contador =0;
 
 
-        private int X, Y, limiteX, limiteY, XOriginal, YOriginal, mandoEstaConectado, tiempo, saltoY = 180, puntuacion = 0,dibujado; //se crean
+        //CARGA LA IMAGEN, LA INTERPOLA LA DIMENSIONA Y LIBERA LOS RECURSOS DE LA IMAGEN Y EN VEZ DE 1MB VA A SER SOLO 800KB
+        //LOS CONTORNOS NO SON TAN PRECISOS, SON MEDIO BORROSOS
+
+        private int X, Y, limiteX, limiteY, XOriginal, YOriginal, mandoEstaConectado, tiempo, saltoY = 180, puntuacion = 0,dibujado, saltoX =180; //se crean
         Joystick controlConectado;//Variable joystick que tendrá el mando usado por el usuario
         private string teclaAct;//Variable global que se usará para describir el estado de una tecla
 
@@ -43,6 +46,11 @@ namespace Graf2_LeonardoLoza
             Controls.Add(colision);
             this.DoubleBuffered = true;
 
+            X = cholo.Left;//Se consiguen las coordenadas del cholo en su parte izquierda
+            Y = cholo.Top;//Se consiguen las coordenadas del cholo de su tope
+            limiteX = ClientSize.Width - 100; //Se define límite de x para que el cholo no se salga de la pantalla
+            limiteY = ClientSize.Height - 150;//Se define límite de y para que el cholo no se salga de la pantalla
+
         }
 
         private void timer2_Tick(object sender, EventArgs e)
@@ -56,10 +64,12 @@ namespace Graf2_LeonardoLoza
         {
             tiempo++;//Se incrementa una variable tiempo 
             if (tiempo < 15)//Se crea una condición en caso de que la variable aún no haya llegado a 15
-            { cholo.Location = new Point(X, saltoY -= 20); }//Se desplaza 10 pixeles hacia arriba el cholo desde la posición que tenía
+            { cholo.Location = new Point(X+=10, saltoY -= 20);
+              
+            }//Se desplaza 10 pixeles hacia arriba el cholo desde la posición que tenía
             else//en caso de no cumplirse, se realiza la siguiente condición
             {//Se abre el espacio de la condición 
-                cholo.Location = new Point(X, saltoY += 20); //Baja del salto 10 pixeles
+                cholo.Location = new Point(X+=5, saltoY += 20); //Baja del salto 10 pixeles
                 if (cholo.Location.Y == 140)//Condición si se llega a bajar 120 pixeles
                 {//Se abre la condición 
                     timer2.Enabled = false; //Se desactiva el salto cerrando con el ciclo
@@ -130,8 +140,9 @@ namespace Graf2_LeonardoLoza
         //Ya no necesito using para usar graphics usando onpaint
         protected override void OnPaint(PaintEventArgs e)
         {
-       
-         
+
+            e.Graphics.InterpolationMode = InterpolationMode.Bilinear;
+
             //pinta del tamaño de client rectangle (Client rectangle regresa el ancho y alto del rectangulo y se actualiza si cambia)
             //Si quiero que en tiempo de ejecución me regrese el ancho y alto del formulario
             //this.DoubleBuffered = true;
@@ -290,8 +301,9 @@ namespace Graf2_LeonardoLoza
             e.Graphics.FillClosedCurve(Brushes.Yellow, Sol);
 
 
-            e.Graphics.DrawImage(Properties.Resources.maceta, contador, 240, 80, 80);
 
+            e.Graphics.DrawImage(Properties.Resources.maceta, contador, 240, 80, 80);
+            
             colision.Size = new Size(80, 80);
             colision.Location = new Point(contador, 240);
 
@@ -342,6 +354,18 @@ namespace Graf2_LeonardoLoza
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (X >= limiteX || Y >= limiteY )//Condición en caso de llegar a los límites del form
+            {//Se abre condición
+                timer2.Stop();
+                timer1.Stop();
+                Tocado = true;
+                cholo.timer1.Stop();
+
+                MessageBox.Show("ganaste! terminado!");
+                return;
+            }//Se cierra condición
+
+
 
             label1.Text = "Puntuación: "+(puntuacion += 1).ToString();
             Joystick.Status estadoControl = controlConectado.GetCurrentStatus();//Verifica el estado del control
@@ -350,6 +374,7 @@ namespace Graf2_LeonardoLoza
              
                 { timer2.Enabled = true; }//Se activa el temporizador para saltar
             }//Se cierra el espacio para el código si se cumple la condición
+
 
 
 
@@ -363,8 +388,7 @@ namespace Graf2_LeonardoLoza
             }
 
 
-         
-
+    
 
 
             if (cholo.Bounds.IntersectsWith(colision.Bounds) && Tocado !=true)
